@@ -7,11 +7,13 @@ import { Ionicons } from '@expo/vector-icons';
 
 import Home from "./components/Home.tsx";
 import Pick from "./components/Pick.tsx";
+import Deliveries from "./components/Deliveries";
 import { Base } from "./styles/index.js";
 
 const routeIcons = {
   "Lager": "home",
   "Plock": "list",
+  "Inleveranser": "car-outline",
 };
 
 const Tab = createBottomTabNavigator();
@@ -37,6 +39,9 @@ export default function App() {
           </Tab.Screen>
           <Tab.Screen name="Plock">
             {() => <Pick setProducts={setProducts}/>}
+          </Tab.Screen>
+          <Tab.Screen name="Inleveranser">
+            {() => <Deliveries setProducts={setProducts}/>}
           </Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
