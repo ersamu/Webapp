@@ -8,8 +8,6 @@ const products = {
         return result.data;
     },
     updateProduct: async function updateProduct(product) {
-        console.log("Hej2");
-        console.log(product);
         try {
             product.api_key = config.api_key;
 
