@@ -21,7 +21,7 @@ export default function DeliveryForm({ navigation, setProducts }) {
         };
 
         await productModel.updateProduct(updatedProduct);
-        setProducts(await productModel.getProducts())
+        setProducts(await productModel.getProducts());
 
         navigation.navigate("List", { reload: true });
     }
