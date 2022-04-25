@@ -33,7 +33,7 @@ const orders = {
     },
     updateOrder: async function updateOrder(order: Partial<Order>) {
         try {
-            await fetch(`${config.base_url}/orders/?api_key=${config.api_key}`, {
+            await fetch(`${config.base_url}/orders`, {
                 body: JSON.stringify(order),
                 headers: {
                     'content-type': 'application/json'
@@ -44,6 +44,12 @@ const orders = {
             console.log("Could not update order", error)
         }
     },
+    getOrder: async function getOrder(order_id: number) {
+        const response = await fetch(`${config.base_url}/orders/${order_id}?api_key=${config.api_key}`);
+        const result = await response.json();
+
+        return result.data;
+    }
 };
 
 export default orders;
