@@ -1,6 +1,6 @@
 export const container = {
     flex: 1,
-}
+};
 
 export const base = {
     flex: 1,
@@ -13,4 +13,10 @@ export const warehouseimg = {
     width: 320,
     height: 240,
     marginBottom: 28,
-}
+};
+
+export const containerMap = {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+};
