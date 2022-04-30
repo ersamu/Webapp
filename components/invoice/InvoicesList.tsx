@@ -32,7 +32,7 @@ export default function InvoiceList({ route, navigation, setIsLoggedIn }) {
     .map((invoice, index) => {
         return (<DataTable.Row key={index}>
             <DataTable.Cell>{invoice.name}</DataTable.Cell>
-            <DataTable.Cell numeric>{invoice.total_price}</DataTable.Cell>
+            <DataTable.Cell>{invoice.total_price}</DataTable.Cell>
             <DataTable.Cell>{invoice.due_date}</DataTable.Cell>
         </DataTable.Row>)
     });
