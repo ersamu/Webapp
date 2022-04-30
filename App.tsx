@@ -10,6 +10,7 @@ import Pick from "./components/Pick";
 import Deliveries from "./components/Deliveries";
 import Auth from "./components/auth/Auth";
 import Invoices from "./components/invoice/Invoices";
+import Ship from "./components/ship/Ship";
 import authModel from "./models/auth";
 import { Base } from "./styles/index.js";
 
@@ -19,6 +20,7 @@ const routeIcons = {
   "Inleveranser": "car-outline",
   "Faktura": "cash-outline",
   "Logga in": "lock-closed",
+  "Leverans": "send",
 };
 
 const Tab = createBottomTabNavigator();
@@ -61,6 +63,7 @@ export default function App() {
               {() => <Auth setIsLoggedIn={setIsLoggedIn}/>}
             </Tab.Screen>
           }
+          <Tab.Screen name="Leverans" component={Ship} />
         </Tab.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />
