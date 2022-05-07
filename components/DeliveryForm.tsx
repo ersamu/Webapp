@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { Platform, ScrollView, Text, TextInput, Button, View } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Base, Typography, Forms} from "../styles";
+import { showMessage } from "react-native-flash-message";
 
+import { Base, Typography, Forms} from "../styles";
 import Delivery from "../interfaces/delivery";
 import deliveryModel from "../models/deliveries";
 import productModel from "../models/products";
@@ -12,18 +13,51 @@ export default function DeliveryForm({ navigation, setProducts }) {
     const [delivery, setDelivery] = useState<Partial<Delivery>>({});
     const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({});
 
+    function formIsValid() {
+        if (Object.prototype.hasOwnProperty.call(delivery, "product_id")
+            && Object.prototype.hasOwnProperty.call(delivery, "amount")
+            && Object.prototype.hasOwnProperty.call(delivery, "delivery_date")) {
+                return "success";
+            }
+        return "error";
+    }
+
+    function amountIsValid(amount: string) {
+        if (!(parseInt(amount) > 0)) {
+            showMessage({
+                message: "Antal inte giltigt",
+                description: "Antal måste vara större än 0",
+                type: "warning",
+            })
+        }
+    }
+
     async function addDelivery() {
-        await deliveryModel.addDelivery(delivery);
+        if (formIsValid() === "success" && delivery.amount > 0) {
+            const result = await deliveryModel.addDelivery(delivery);
 
-        const updatedProduct = {
-            ...currentProduct,
-            stock: (currentProduct.stock || 0) + (delivery.amount || 0)
-        };
+            showMessage({
+                message: result.title,
+                description: result.message,
+                type: result.type,
+            });
 
-        await productModel.updateProduct(updatedProduct);
-        setProducts(await productModel.getProducts());
+            const updatedProduct = {
+                ...currentProduct,
+                stock: (currentProduct.stock || 0) + (delivery.amount || 0)
+            };
 
-        navigation.navigate("List", { reload: true });
+            await productModel.updateProduct(updatedProduct);
+            setProducts(await productModel.getProducts());
+
+            navigation.navigate("List", { reload: true });
+        } else {
+            showMessage({
+                message: "Saknas information",
+                description: "Du måste fylla i produkt, antal (större än 0) och leveransdatum.",
+                type: "warning",
+            });
+        }
     }
 
     return (
@@ -41,6 +75,7 @@ export default function DeliveryForm({ navigation, setProducts }) {
             <TextInput
                 style={Forms.input}
                 onChangeText={(content: string) => {
+                    amountIsValid(content);
                     setDelivery({ ...delivery, amount: parseInt(content)});
                 }}
                 value={delivery?.amount?.toString()}
