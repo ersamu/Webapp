@@ -13,8 +13,17 @@ const deliveries = {
                 },
                 method: 'POST'
             });
+            return {
+                title: "Inleverans",
+                message: "Fungerade",
+                type: "success",
+            };
         } catch (error) {
-            console.log("Could not add delivery", error)
+            return {
+                title: "Inleverans misslyckad",
+                message: "Fungerade inte",
+                type: "danger",
+            };
         }
     },
     getDeliveries: async function getDeliveries() {
